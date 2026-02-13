@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          created_at: string
+          district: string
+          id: string
+          is_default: boolean
+          phone: string
+          province: string
+          recipient_name: string
+          street_address: string
+          updated_at: string
+          user_id: string
+          ward: string
+        }
+        Insert: {
+          created_at?: string
+          district: string
+          id?: string
+          is_default?: boolean
+          phone: string
+          province: string
+          recipient_name: string
+          street_address: string
+          updated_at?: string
+          user_id: string
+          ward: string
+        }
+        Update: {
+          created_at?: string
+          district?: string
+          id?: string
+          is_default?: boolean
+          phone?: string
+          province?: string
+          recipient_name?: string
+          street_address?: string
+          updated_at?: string
+          user_id?: string
+          ward?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
