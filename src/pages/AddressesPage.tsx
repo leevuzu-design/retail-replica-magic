@@ -3,7 +3,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, MapPin, Pencil, Trash2, ArrowLeft, X } from 'lucide-react';
+import { Plus, MapPin, Pencil, Trash2, ArrowLeft, X, ChevronRight } from 'lucide-react';
+import AddressPicker from '@/components/AddressPicker';
 
 interface Address {
   id: string;
@@ -27,7 +28,7 @@ const AddressesPage = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
-
+  const [addressPickerOpen, setAddressPickerOpen] = useState(false);
   const fetchAddresses = async () => {
     if (!user) return;
     const { data } = await supabase
@@ -195,33 +196,28 @@ const AddressesPage = () => {
               </div>
               <div>
                 <label className="text-sm font-medium">Tỉnh / Thành phố *</label>
-                <input
-                  type="text"
-                  placeholder="Chọn Tỉnh / Thành phố"
-                  value={form.province}
-                  onChange={(e) => setForm({ ...form, province: e.target.value })}
-                  className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm focus:outline-none focus:border-primary transition-colors"
-                />
+                <button
+                  type="button"
+                  onClick={() => setAddressPickerOpen(true)}
+                  className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm text-left focus:outline-none focus:border-primary transition-colors flex items-center justify-between"
+                >
+                  <span className={form.province ? 'text-foreground' : 'text-muted-foreground'}>
+                    {form.province || 'Chọn Tỉnh / Thành phố'}
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </button>
               </div>
               <div>
                 <label className="text-sm font-medium">Quận / Huyện *</label>
-                <input
-                  type="text"
-                  placeholder="Chọn Quận / Huyện"
-                  value={form.district}
-                  onChange={(e) => setForm({ ...form, district: e.target.value })}
-                  className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm focus:outline-none focus:border-primary transition-colors"
-                />
+                <div className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm flex items-center text-muted-foreground">
+                  {form.district || 'Chọn Quận / Huyện'}
+                </div>
               </div>
               <div>
                 <label className="text-sm font-medium">Phường / Xã *</label>
-                <input
-                  type="text"
-                  placeholder="Chọn Phường / Xã"
-                  value={form.ward}
-                  onChange={(e) => setForm({ ...form, ward: e.target.value })}
-                  className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm focus:outline-none focus:border-primary transition-colors"
-                />
+                <div className="w-full h-11 px-0 border-0 border-b border-border bg-transparent text-sm flex items-center text-muted-foreground">
+                  {form.ward || 'Chọn Phường / Xã'}
+                </div>
               </div>
               <div>
                 <label className="text-sm font-medium">Địa chỉ nhận hàng *</label>
@@ -245,6 +241,14 @@ const AddressesPage = () => {
           </div>
         </div>
       )}
+
+      <AddressPicker
+        open={addressPickerOpen}
+        onClose={() => setAddressPickerOpen(false)}
+        onSelect={(province, district, ward) => {
+          setForm(f => ({ ...f, province, district, ward }));
+        }}
+      />
     </UserLayout>
   );
 };
