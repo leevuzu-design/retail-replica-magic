@@ -54,7 +54,9 @@ const CheckoutPage = () => {
   const shippingDiscount = shippingFee;
   const total = subtotal + shippingFee - shippingDiscount;
 
-  const handleOrder = () => {
+  const [ordering, setOrdering] = useState(false);
+
+  const handleOrder = async () => {
     if (!user) {
       toast({ title: 'Vui lòng đăng nhập để đặt hàng', variant: 'destructive' });
       navigate('/sign-in');
@@ -65,9 +67,49 @@ const CheckoutPage = () => {
       navigate('/addresses');
       return;
     }
-    toast({ title: 'Đặt hàng thành công! 🎉', description: `Đơn hàng ${formatPrice(total)} đang được xử lý.` });
-    clearCart();
-    navigate('/orders');
+
+    setOrdering(true);
+    try {
+      const orderItems = cartProducts.map((p) => ({
+        product_id: p.id,
+        name: p.name,
+        brand: p.brand,
+        image: p.image,
+        price: p.price,
+        original_price: p.originalPrice || null,
+        quantity: p.quantity,
+      }));
+
+      const { error } = await supabase.from('orders').insert({
+        user_id: user.id,
+        items: orderItems,
+        subtotal,
+        shipping_fee: shippingFee,
+        shipping_discount: shippingDiscount,
+        total_amount: total,
+        status: 'confirmed',
+        payment_method: paymentMethod,
+        shipping_address: {
+          recipient_name: defaultAddress.recipient_name,
+          phone: defaultAddress.phone,
+          province: defaultAddress.province,
+          district: defaultAddress.district,
+          ward: defaultAddress.ward,
+          street_address: defaultAddress.street_address,
+        },
+        note: note || null,
+      } as any);
+
+      if (error) throw error;
+
+      toast({ title: 'Đặt hàng thành công! 🎉', description: `Đơn hàng ${formatPrice(total)} đang được xử lý.` });
+      clearCart();
+      navigate('/orders');
+    } catch (err: any) {
+      toast({ title: 'Đặt hàng thất bại', description: err.message, variant: 'destructive' });
+    } finally {
+      setOrdering(false);
+    }
   };
 
   if (cartProducts.length === 0) {
@@ -97,7 +139,9 @@ const CheckoutPage = () => {
             <Button variant="outline" size="sm" asChild>
               <Link to="/">MUA THÊM</Link>
             </Button>
-            <Button size="sm" onClick={handleOrder}>ĐẶT HÀNG</Button>
+            <Button size="sm" onClick={handleOrder} disabled={ordering}>
+              {ordering ? 'Đang xử lý...' : 'ĐẶT HÀNG'}
+            </Button>
           </div>
         </div>
       </div>
@@ -253,8 +297,8 @@ const CheckoutPage = () => {
                   <span>{formatPrice(total)}</span>
                 </div>
               </div>
-              <Button onClick={handleOrder} className="w-full h-11 mt-5 text-base">
-                ĐẶT HÀNG
+              <Button onClick={handleOrder} disabled={ordering} className="w-full h-11 mt-5 text-base">
+                {ordering ? 'Đang xử lý...' : 'ĐẶT HÀNG'}
               </Button>
             </div>
           </div>
