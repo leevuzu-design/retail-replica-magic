@@ -1,7 +1,6 @@
 import UserLayout from '@/components/UserLayout';
 import { Package, ShoppingBag } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const tabs = [
   { key: 'all', label: 'Tất cả' },
@@ -14,7 +13,8 @@ const tabs = [
 ];
 
 const OrdersPage = () => {
-  const [activeTab, setActiveTab] = useState('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'all';
 
   return (
     <UserLayout>
@@ -24,7 +24,7 @@ const OrdersPage = () => {
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => setSearchParams(tab.key === 'all' ? {} : { tab: tab.key })}
               className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.key
                   ? 'border-primary text-primary font-medium'
