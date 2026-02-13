@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWishlist } from '@/hooks/useWishlist';
 import { useViewedProducts } from '@/hooks/useViewedProducts';
+import { useCart } from '@/hooks/useCart';
+import { toast } from '@/hooks/use-toast';
 
 const allProducts = [...bestSellers, ...newArrivals];
 
@@ -20,6 +22,7 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { addViewed } = useViewedProducts();
+  const { addToCart } = useCart();
 
   const liked = product ? isWishlisted(product.id) : false;
 
@@ -113,7 +116,7 @@ const ProductDetailPage = () => {
             </div>
 
             <div className="flex gap-3 mb-6">
-              <Button className="flex-1 h-12 text-base gap-2">
+              <Button className="flex-1 h-12 text-base gap-2" onClick={() => { addToCart(product.id, quantity); toast({ title: 'Đã thêm vào giỏ hàng', description: `${product.name} x${quantity}` }); }}>
                 <ShoppingBag className="w-5 h-5" />
                 Thêm vào giỏ hàng
               </Button>

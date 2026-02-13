@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { WishlistProvider } from "@/hooks/useWishlist";
 import { ViewedProvider } from "@/hooks/useViewedProducts";
+import { CartProvider } from "@/hooks/useCart";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import MagazinePage from "./pages/MagazinePage";
@@ -35,7 +36,8 @@ const App = () => (
     <AuthProvider>
       <WishlistProvider>
         <ViewedProvider>
-          <TooltipProvider>
+          <CartProvider>
+            <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -63,7 +65,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-          </TooltipProvider>
+            </TooltipProvider>
+          </CartProvider>
         </ViewedProvider>
       </WishlistProvider>
     </AuthProvider>
