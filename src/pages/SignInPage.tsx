@@ -1,7 +1,7 @@
 import PageLayout from '@/components/PageLayout';
 import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable';
 import { useToast } from '@/hooks/use-toast';
@@ -12,7 +12,10 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  const from = (location.state as { from?: string })?.from || '/';
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +26,7 @@ const SignInPage = () => {
       toast({ title: 'Lỗi đăng nhập', description: error.message, variant: 'destructive' });
     } else {
       toast({ title: 'Đăng nhập thành công!' });
-      navigate('/');
+      navigate(from, { replace: true });
     }
   };
 
