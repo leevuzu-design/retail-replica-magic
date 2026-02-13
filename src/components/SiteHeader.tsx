@@ -1,25 +1,26 @@
-import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut, Eye, Clock, Star, MessageSquare, Ticket, Award, Users, Gift } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut, Eye, Clock, Star, MessageSquare, Package, FileText, UserCog, KeyRound, MapPin } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, profile, signOut } = useAuth();
+  const location = useLocation();
 
-  const guestMenuItems = [
+  const accountMenuItems = [
+    { icon: Package, label: 'Đơn hàng của tôi', to: '/orders' },
+    { icon: FileText, label: 'Bài viết của tôi', to: '/my-posts' },
+    { icon: UserCog, label: 'Chỉnh sửa thông tin cá nhân', to: '/profile' },
+    { icon: KeyRound, label: 'Đổi mật khẩu', to: '/change-password' },
+    { icon: MapPin, label: 'Địa chỉ giao hàng', to: '/addresses' },
+  ];
+
+  const productMenuItems = [
     { icon: Eye, label: 'Sản phẩm đã xem', to: '/viewed' },
     { icon: Heart, label: 'Sản phẩm yêu thích', to: '/wishlist' },
     { icon: Clock, label: 'Sản phẩm chờ hàng về', to: '/waiting' },
     { icon: MessageSquare, label: 'Sản phẩm đã đánh giá', to: '/reviewed' },
-    { icon: Star, label: 'Sản phẩm chờ đánh giá', to: '/pending-review' },
-  ];
-
-  const promoMenuItems = [
-    { icon: Ticket, label: 'Mã giảm giá', to: '/cashback', badge: 'Hot' },
-    { icon: Award, label: 'Chương trình Vutrucoin', to: '/vutrucoin' },
-    { icon: Users, label: 'Hạng thành viên', to: '/membership' },
-    { icon: Gift, label: 'Giới thiệu bạn bè', to: '/referral', subtitle: 'Nhận ngay 500.000đ cho mỗi đơn...' },
   ];
 
   return (
@@ -81,7 +82,7 @@ const SiteHeader = () => {
                   </div>
                 </div>
               ) : (
-                <Link to="/sign-in" className="flex items-center gap-2 text-xs hover:text-primary transition-colors">
+                <Link to="/sign-in" state={{ from: location.pathname }} className="flex items-center gap-2 text-xs hover:text-primary transition-colors">
                   <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
                     <User className="w-4 h-4" />
                   </div>
@@ -102,7 +103,7 @@ const SiteHeader = () => {
                           Đăng nhập để trải nghiệm những ưu đãi độc quyền của bạn tại Vutru
                         </p>
                         <div className="flex gap-2">
-                          <Link to="/sign-in" className="flex-1 h-9 bg-primary text-primary-foreground rounded-full text-sm font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
+                          <Link to="/sign-in" state={{ from: location.pathname }} className="flex-1 h-9 bg-primary text-primary-foreground rounded-full text-sm font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
                             Đăng nhập
                           </Link>
                           <Link to="/sign-up" className="flex-1 h-9 border border-border rounded-full text-sm font-medium flex items-center justify-center hover:bg-secondary transition-colors">
@@ -111,6 +112,14 @@ const SiteHeader = () => {
                         </div>
                       </div>
                       <div className="border-t border-border" />
+                      <div className="py-1">
+                        {productMenuItems.map((item) => (
+                          <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
+                            <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span>{item.label}</span>
+                          </Link>
+                        ))}
+                      </div>
                     </>
                   ) : (
                     <>
@@ -124,50 +133,35 @@ const SiteHeader = () => {
                         </div>
                         <div className="min-w-0">
                           <div className="font-medium text-sm truncate">{profile?.display_name || user.email?.split('@')[0]}</div>
-                          <div className="text-xs text-muted-foreground truncate">{user.email}</div>
+                          <div className="text-xs text-muted-foreground">MEMBER</div>
                         </div>
                       </div>
                       <div className="border-t border-border" />
-                    </>
-                  )}
 
-                  <div className="py-1">
-                    {guestMenuItems.map((item) => (
-                      <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
-                        <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <span>{item.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-
-                  <div className="border-t border-border" />
-
-                  <div className="py-1">
-                    {promoMenuItems.map((item) => (
-                      <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
-                        <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span>{item.label}</span>
-                            {item.badge && (
-                              <span className="bg-destructive text-destructive-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">{item.badge}</span>
-                            )}
-                          </div>
-                          {item.subtitle && (
-                            <div className="text-xs text-muted-foreground truncate">{item.subtitle}</div>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  {user && (
-                    <>
-                      <div className="border-t border-border" />
                       <div className="py-1">
-                        <button onClick={signOut} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors w-full text-left text-destructive">
-                          <LogOut className="w-4 h-4 shrink-0" />
-                          <span>Đăng xuất</span>
+                        {accountMenuItems.map((item) => (
+                          <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
+                            <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span>{item.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+
+                      <div className="border-t border-border" />
+
+                      <div className="py-1">
+                        {productMenuItems.map((item) => (
+                          <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
+                            <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span>{item.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+
+                      <div className="border-t border-border" />
+                      <div className="p-3">
+                        <button onClick={signOut} className="w-full h-9 border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors">
+                          Đăng xuất
                         </button>
                       </div>
                     </>
