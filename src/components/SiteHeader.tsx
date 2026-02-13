@@ -11,7 +11,7 @@ const SiteHeader = () => {
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold tracking-[0.3em] shrink-0">
-            LIXIBOX
+            VUTRU
           </Link>
 
           {/* Search Bar */}
@@ -36,7 +36,7 @@ const SiteHeader = () => {
               <Newspaper className="w-5 h-5" />
               <div className="leading-tight">
                 <div className="opacity-70">Thông tin hot</div>
-                <div className="font-medium">Lixi Magazines</div>
+                <div className="font-medium">Vutru Magazines</div>
               </div>
             </Link>
             <Link to="/community" className="hidden lg:flex items-center gap-2 text-xs hover:text-primary transition-colors">

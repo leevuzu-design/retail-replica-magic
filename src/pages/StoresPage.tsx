@@ -2,12 +2,12 @@ import PageLayout from '@/components/PageLayout';
 import { MapPin, Phone, Clock, Navigation } from 'lucide-react';
 
 const storeList = [
-  { id: 1, name: 'Lixibox Quận 1', address: '123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM', phone: '028 1234 5678', hours: '9:00 - 21:00', status: 'open' },
-  { id: 2, name: 'Lixibox Quận 3', address: '456 Võ Văn Tần, Phường 5, Quận 3, TP.HCM', phone: '028 2345 6789', hours: '9:00 - 21:00', status: 'open' },
-  { id: 3, name: 'Lixibox Quận 7', address: '789 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP.HCM', phone: '028 3456 7890', hours: '9:00 - 21:00', status: 'open' },
-  { id: 4, name: 'Lixibox Hà Nội - Hoàn Kiếm', address: '12 Tràng Tiền, Quận Hoàn Kiếm, Hà Nội', phone: '024 1234 5678', hours: '9:00 - 21:00', status: 'open' },
-  { id: 5, name: 'Lixibox Hà Nội - Cầu Giấy', address: '88 Trần Duy Hưng, Quận Cầu Giấy, Hà Nội', phone: '024 2345 6789', hours: '9:00 - 21:00', status: 'closed' },
-  { id: 6, name: 'Lixibox Đà Nẵng', address: '55 Nguyễn Văn Linh, Quận Hải Châu, Đà Nẵng', phone: '0236 123 4567', hours: '9:00 - 21:00', status: 'open' },
+  { id: 1, name: 'Vutru Quận 1', address: '123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM', phone: '028 1234 5678', hours: '9:00 - 21:00', status: 'open' },
+  { id: 2, name: 'Vutru Quận 3', address: '456 Võ Văn Tần, Phường 5, Quận 3, TP.HCM', phone: '028 2345 6789', hours: '9:00 - 21:00', status: 'open' },
+  { id: 3, name: 'Vutru Quận 7', address: '789 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP.HCM', phone: '028 3456 7890', hours: '9:00 - 21:00', status: 'open' },
+  { id: 4, name: 'Vutru Hà Nội - Hoàn Kiếm', address: '12 Tràng Tiền, Quận Hoàn Kiếm, Hà Nội', phone: '024 1234 5678', hours: '9:00 - 21:00', status: 'open' },
+  { id: 5, name: 'Vutru Hà Nội - Cầu Giấy', address: '88 Trần Duy Hưng, Quận Cầu Giấy, Hà Nội', phone: '024 2345 6789', hours: '9:00 - 21:00', status: 'closed' },
+  { id: 6, name: 'Vutru Đà Nẵng', address: '55 Nguyễn Văn Linh, Quận Hải Châu, Đà Nẵng', phone: '0236 123 4567', hours: '9:00 - 21:00', status: 'open' },
 ];
 
 const StoresPage = () => (

@@ -3,11 +3,11 @@ import { Package, Search, Truck, CheckCircle, Clock, XCircle } from 'lucide-reac
 import { useState } from 'react';
 
 const sampleOrders = [
-  { id: 'LX202602001', date: '10/02/2026', total: 850000, status: 'delivered', items: 3, statusLabel: 'Đã giao hàng' },
-  { id: 'LX202601025', date: '28/01/2026', total: 1250000, status: 'shipping', items: 2, statusLabel: 'Đang vận chuyển' },
-  { id: 'LX202601012', date: '15/01/2026', total: 450000, status: 'processing', items: 1, statusLabel: 'Đang xử lý' },
-  { id: 'LX202601005', date: '05/01/2026', total: 2100000, status: 'delivered', items: 5, statusLabel: 'Đã giao hàng' },
-  { id: 'LX202512020', date: '20/12/2025', total: 680000, status: 'cancelled', items: 2, statusLabel: 'Đã hủy' },
+  { id: 'VT202602001', date: '10/02/2026', total: 850000, status: 'delivered', items: 3, statusLabel: 'Đã giao hàng' },
+  { id: 'VT202601025', date: '28/01/2026', total: 1250000, status: 'shipping', items: 2, statusLabel: 'Đang vận chuyển' },
+  { id: 'VT202601012', date: '15/01/2026', total: 450000, status: 'processing', items: 1, statusLabel: 'Đang xử lý' },
+  { id: 'VT202601005', date: '05/01/2026', total: 2100000, status: 'delivered', items: 5, statusLabel: 'Đã giao hàng' },
+  { id: 'VT202512020', date: '20/12/2025', total: 680000, status: 'cancelled', items: 2, statusLabel: 'Đã hủy' },
 ];
 
 const statusIcons: Record<string, React.ReactNode> = {

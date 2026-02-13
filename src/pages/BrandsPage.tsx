@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 import { useState } from 'react';
 
 const brandList = [
-  { name: 'Lixibox', products: 450, letter: 'L' },
+  { name: 'Vutru', products: 450, letter: 'V' },
   { name: 'Lustre', products: 120, letter: 'L' },
   { name: 'Beauté', products: 85, letter: 'B' },
   { name: 'SunShield', products: 65, letter: 'S' },
