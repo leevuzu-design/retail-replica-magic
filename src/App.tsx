@@ -24,6 +24,7 @@ import ViewedPage from "./pages/ViewedPage";
 import WaitingPage from "./pages/WaitingPage";
 import ReviewedPage from "./pages/ReviewedPage";
 import MyPostsPage from "./pages/MyPostsPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/waiting" element={<WaitingPage />} />
             <Route path="/reviewed" element={<ReviewedPage />} />
             <Route path="/my-posts" element={<MyPostsPage />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
