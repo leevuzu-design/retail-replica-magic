@@ -1,4 +1,4 @@
-import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut, Eye, Clock, Star, MessageSquare, Ticket, Award, Users, Gift } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -6,6 +6,21 @@ import { useAuth } from '@/hooks/useAuth';
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, profile, signOut } = useAuth();
+
+  const guestMenuItems = [
+    { icon: Eye, label: 'Sản phẩm đã xem', to: '/viewed' },
+    { icon: Heart, label: 'Sản phẩm yêu thích', to: '/wishlist' },
+    { icon: Clock, label: 'Sản phẩm chờ hàng về', to: '/waiting' },
+    { icon: MessageSquare, label: 'Sản phẩm đã đánh giá', to: '/reviewed' },
+    { icon: Star, label: 'Sản phẩm chờ đánh giá', to: '/pending-review' },
+  ];
+
+  const promoMenuItems = [
+    { icon: Ticket, label: 'Mã giảm giá', to: '/cashback', badge: 'Hot' },
+    { icon: Award, label: 'Chương trình Vutrucoin', to: '/vutrucoin' },
+    { icon: Users, label: 'Hạng thành viên', to: '/membership' },
+    { icon: Gift, label: 'Giới thiệu bạn bè', to: '/referral', subtitle: 'Nhận ngay 500.000đ cho mỗi đơn...' },
+  ];
 
   return (
     <header className="bg-header text-header-foreground sticky top-0 z-50">
@@ -49,34 +64,117 @@ const SiteHeader = () => {
               </div>
             </Link>
 
-            {user ? (
-              <div className="hidden lg:flex items-center gap-2 text-xs">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden">
-                  {profile?.avatar_url ? (
-                    <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+            {/* User area with dropdown */}
+            <div className="hidden lg:block relative group">
+              {user ? (
+                <div className="flex items-center gap-2 text-xs cursor-pointer">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden">
+                    {profile?.avatar_url ? (
+                      <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-4 h-4 text-primary-foreground" />
+                    )}
+                  </div>
+                  <div className="leading-tight">
+                    <div className="opacity-70">Xin chào</div>
+                    <div className="font-medium">{profile?.display_name || user.email?.split('@')[0]}</div>
+                  </div>
+                </div>
+              ) : (
+                <Link to="/sign-in" className="flex items-center gap-2 text-xs hover:text-primary transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div className="leading-tight">
+                    <div className="opacity-70">Hi, Beautiful</div>
+                    <div className="font-medium">Đăng nhập ngay</div>
+                  </div>
+                </Link>
+              )}
+
+              {/* Hover Dropdown */}
+              <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="bg-background text-foreground rounded-xl shadow-xl border border-border w-72 overflow-hidden">
+                  {!user ? (
+                    <>
+                      <div className="p-4 pb-3">
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Đăng nhập để trải nghiệm những ưu đãi độc quyền của bạn tại Vutru
+                        </p>
+                        <div className="flex gap-2">
+                          <Link to="/sign-in" className="flex-1 h-9 bg-primary text-primary-foreground rounded-full text-sm font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
+                            Đăng nhập
+                          </Link>
+                          <Link to="/sign-up" className="flex-1 h-9 border border-border rounded-full text-sm font-medium flex items-center justify-center hover:bg-secondary transition-colors">
+                            Đăng ký
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="border-t border-border" />
+                    </>
                   ) : (
-                    <User className="w-4 h-4 text-primary-foreground" />
+                    <>
+                      <div className="p-4 pb-3 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden shrink-0">
+                          {profile?.avatar_url ? (
+                            <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <User className="w-5 h-5 text-primary-foreground" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-sm truncate">{profile?.display_name || user.email?.split('@')[0]}</div>
+                          <div className="text-xs text-muted-foreground truncate">{user.email}</div>
+                        </div>
+                      </div>
+                      <div className="border-t border-border" />
+                    </>
+                  )}
+
+                  <div className="py-1">
+                    {guestMenuItems.map((item) => (
+                      <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
+                        <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <span>{item.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-border" />
+
+                  <div className="py-1">
+                    {promoMenuItems.map((item) => (
+                      <Link key={item.to} to={item.to} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors">
+                        <item.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span>{item.label}</span>
+                            {item.badge && (
+                              <span className="bg-destructive text-destructive-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">{item.badge}</span>
+                            )}
+                          </div>
+                          {item.subtitle && (
+                            <div className="text-xs text-muted-foreground truncate">{item.subtitle}</div>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {user && (
+                    <>
+                      <div className="border-t border-border" />
+                      <div className="py-1">
+                        <button onClick={signOut} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors w-full text-left text-destructive">
+                          <LogOut className="w-4 h-4 shrink-0" />
+                          <span>Đăng xuất</span>
+                        </button>
+                      </div>
+                    </>
                   )}
                 </div>
-                <div className="leading-tight">
-                  <div className="opacity-70">Xin chào</div>
-                  <div className="font-medium">{profile?.display_name || user.email?.split('@')[0]}</div>
-                </div>
-                <button onClick={signOut} className="ml-2 hover:text-primary transition-colors" title="Đăng xuất">
-                  <LogOut className="w-4 h-4" />
-                </button>
               </div>
-            ) : (
-              <Link to="/sign-in" className="hidden lg:flex items-center gap-2 text-xs hover:text-primary transition-colors">
-                <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
-                  <User className="w-4 h-4" />
-                </div>
-                <div className="leading-tight">
-                  <div className="opacity-70">Hi, Beautiful</div>
-                  <div className="font-medium">Đăng nhập ngay</div>
-                </div>
-              </Link>
-            )}
+            </div>
 
             <Link to="/wishlist" className="relative hover:text-primary transition-colors" aria-label="Yêu thích">
               <Heart className="w-5 h-5" />
