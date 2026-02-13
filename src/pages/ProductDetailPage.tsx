@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWishlist } from '@/hooks/useWishlist';
 import { useViewedProducts } from '@/hooks/useViewedProducts';
 import { useCart } from '@/hooks/useCart';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast'; // kept for other uses
 
 const allProducts = [...bestSellers, ...newArrivals];
 
@@ -116,7 +116,7 @@ const ProductDetailPage = () => {
             </div>
 
             <div className="flex gap-3 mb-6">
-              <Button className="flex-1 h-12 text-base gap-2" onClick={() => { addToCart(product.id, quantity); toast({ title: 'Đã thêm vào giỏ hàng', description: `${product.name} x${quantity}` }); }}>
+              <Button className="flex-1 h-12 text-base gap-2" onClick={() => addToCart(product.id, quantity)}>
                 <ShoppingBag className="w-5 h-5" />
                 Thêm vào giỏ hàng
               </Button>
