@@ -1,11 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
 import { Heart, ShoppingBag, Star, ChevronRight, Minus, Plus, Truck, RotateCcw, Shield } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import ProductCard from '@/components/ProductCard';
 import { bestSellers, newArrivals, type Product } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useWishlist } from '@/hooks/useWishlist';
+import { useViewedProducts } from '@/hooks/useViewedProducts';
 
 const allProducts = [...bestSellers, ...newArrivals];
 
@@ -16,7 +18,14 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const product = allProducts.find((p) => p.id === Number(id));
   const [quantity, setQuantity] = useState(1);
-  const [liked, setLiked] = useState(false);
+  const { toggleWishlist, isWishlisted } = useWishlist();
+  const { addViewed } = useViewedProducts();
+
+  const liked = product ? isWishlisted(product.id) : false;
+
+  useEffect(() => {
+    if (product) addViewed(product.id);
+  }, [product?.id]);
 
   if (!product) {
     return (
@@ -52,11 +61,7 @@ const ProductDetailPage = () => {
           {/* Product Image */}
           <div className="relative">
             <div className="aspect-square rounded-lg overflow-hidden bg-secondary border border-border">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
             </div>
             {product.badge && (
               <span className={`absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-sm ${
@@ -75,20 +80,15 @@ const ProductDetailPage = () => {
             <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{product.brand}</p>
             <h1 className="text-xl md:text-2xl font-bold leading-tight mb-3">{product.name}</h1>
 
-            {/* Rating */}
             <div className="flex items-center gap-2 mb-4">
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-star text-star' : 'text-border'}`}
-                  />
+                  <Star key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-star text-star' : 'text-border'}`} />
                 ))}
               </div>
               <span className="text-sm text-muted-foreground">({product.reviews} đánh giá)</span>
             </div>
 
-            {/* Price */}
             <div className="flex items-end gap-3 mb-6">
               <span className="text-3xl font-bold text-price-sale">{formatPrice(product.price)}</span>
               {product.originalPrice && (
@@ -99,27 +99,19 @@ const ProductDetailPage = () => {
               )}
             </div>
 
-            {/* Quantity */}
             <div className="flex items-center gap-4 mb-6">
               <span className="text-sm font-medium">Số lượng:</span>
               <div className="flex items-center border border-border rounded-md">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors"
-                >
+                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors">
                   <Minus className="w-4 h-4" />
                 </button>
                 <span className="w-10 text-center text-sm font-medium">{quantity}</span>
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors"
-                >
+                <button onClick={() => setQuantity((q) => q + 1)} className="w-9 h-9 flex items-center justify-center hover:bg-secondary transition-colors">
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* Actions */}
             <div className="flex gap-3 mb-6">
               <Button className="flex-1 h-12 text-base gap-2">
                 <ShoppingBag className="w-5 h-5" />
@@ -129,13 +121,12 @@ const ProductDetailPage = () => {
                 variant="outline"
                 size="icon"
                 className={`h-12 w-12 ${liked ? 'text-primary border-primary' : ''}`}
-                onClick={() => setLiked(!liked)}
+                onClick={() => toggleWishlist(product.id)}
               >
                 <Heart className={`w-5 h-5 ${liked ? 'fill-primary' : ''}`} />
               </Button>
             </div>
 
-            {/* Policies */}
             <div className="grid grid-cols-3 gap-3 border-t border-border pt-5">
               {[
                 { icon: Truck, text: 'Giao hàng toàn quốc' },
@@ -151,7 +142,6 @@ const ProductDetailPage = () => {
           </div>
         </div>
 
-        {/* Tabs */}
         <Tabs defaultValue="description" className="mt-10">
           <TabsList className="w-full justify-start border-b border-border rounded-none bg-transparent h-auto p-0 gap-6">
             <TabsTrigger value="description" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 pb-3 text-sm font-medium">
@@ -163,16 +153,8 @@ const ProductDetailPage = () => {
           </TabsList>
           <TabsContent value="description" className="pt-6">
             <div className="prose max-w-none text-sm text-muted-foreground leading-relaxed space-y-3">
-              <p>
-                {product.name} từ thương hiệu {product.brand} – sản phẩm được yêu thích với công thức đột phá, 
-                mang lại hiệu quả vượt trội cho làn da của bạn. Sản phẩm phù hợp với mọi loại da, 
-                an toàn và lành tính.
-              </p>
-              <p>
-                Thành phần chính bao gồm các hoạt chất dưỡng da cao cấp, giúp cấp ẩm sâu, 
-                nuôi dưỡng và bảo vệ da suốt cả ngày dài. Kết cấu mỏng nhẹ, thẩm thấu nhanh, 
-                không gây bết dính.
-              </p>
+              <p>{product.name} từ thương hiệu {product.brand} – sản phẩm được yêu thích với công thức đột phá, mang lại hiệu quả vượt trội cho làn da của bạn.</p>
+              <p>Thành phần chính bao gồm các hoạt chất dưỡng da cao cấp, giúp cấp ẩm sâu, nuôi dưỡng và bảo vệ da suốt cả ngày dài.</p>
             </div>
           </TabsContent>
           <TabsContent value="reviews" className="pt-6">
@@ -180,7 +162,6 @@ const ProductDetailPage = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Related products */}
         <section className="mt-12 mb-8">
           <h2 className="text-xl font-bold mb-6">Sản phẩm liên quan</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

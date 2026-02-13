@@ -1,6 +1,7 @@
 import { Heart, Star, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Product } from '@/data/products';
+import { useWishlist } from '@/hooks/useWishlist';
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('vi-VN').format(price) + '₫';
@@ -20,6 +21,9 @@ const badgeLabels: Record<string, string> = {
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const { toggleWishlist, isWishlisted } = useWishlist();
+  const liked = isWishlisted(product.id);
+
   return (
     <Link to={`/product/${product.id}`} className="block group bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-in">
       {/* Image */}
@@ -30,7 +34,6 @@ const ProductCard = ({ product }: { product: Product }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
-        {/* Badge */}
         {product.badge && (
           <span className={`absolute top-2 left-2 text-[10px] font-bold px-2 py-1 rounded-sm ${badgeStyles[product.badge]}`}>
             {badgeLabels[product.badge]}
@@ -43,12 +46,18 @@ const ProductCard = ({ product }: { product: Product }) => {
         )}
         {/* Hover actions */}
         <div className="absolute bottom-0 left-0 right-0 p-2 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-          <button className="flex-1 bg-primary text-primary-foreground text-xs font-medium py-2 rounded-md flex items-center justify-center gap-1 hover:opacity-90 transition-opacity">
+          <button
+            onClick={(e) => { e.preventDefault(); }}
+            className="flex-1 bg-primary text-primary-foreground text-xs font-medium py-2 rounded-md flex items-center justify-center gap-1 hover:opacity-90 transition-opacity"
+          >
             <ShoppingBag className="w-3.5 h-3.5" />
             Thêm vào giỏ
           </button>
-          <button className="w-9 h-9 bg-background rounded-md flex items-center justify-center hover:text-primary transition-colors shadow-sm">
-            <Heart className="w-4 h-4" />
+          <button
+            onClick={(e) => { e.preventDefault(); toggleWishlist(product.id); }}
+            className={`w-9 h-9 bg-background rounded-md flex items-center justify-center transition-colors shadow-sm ${liked ? 'text-primary' : 'hover:text-primary'}`}
+          >
+            <Heart className={`w-4 h-4 ${liked ? 'fill-primary' : ''}`} />
           </button>
         </div>
       </div>
