@@ -9,10 +9,10 @@ import { bestSellers, newArrivals } from '@/data/products';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <SiteHeader />
       <NavBar />
-      <main>
+      <main className="flex-1">
         <HeroBanner />
         <PromoBanner />
         <ProductSection title="Box Bán Chạy" products={bestSellers} />
