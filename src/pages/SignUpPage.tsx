@@ -15,7 +15,7 @@ const SignUpPage = () => {
               <UserPlus className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-2xl font-bold mb-2">Đăng Ký</h1>
-            <p className="text-sm text-muted-foreground">Tạo tài khoản Lixibox để nhận ưu đãi</p>
+            <p className="text-sm text-muted-foreground">Tạo tài khoản Vutru để nhận ưu đãi</p>
           </div>
 
           <form className="space-y-4">

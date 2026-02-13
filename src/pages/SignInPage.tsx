@@ -15,7 +15,7 @@ const SignInPage = () => {
               <User className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-2xl font-bold mb-2">Đăng Nhập</h1>
-            <p className="text-sm text-muted-foreground">Chào mừng bạn trở lại Lixibox</p>
+            <p className="text-sm text-muted-foreground">Chào mừng bạn trở lại Vutru</p>
           </div>
 
           <form className="space-y-4">

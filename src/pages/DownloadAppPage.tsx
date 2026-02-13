@@ -6,9 +6,9 @@ const DownloadAppPage = () => (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-2xl mx-auto text-center">
         <Smartphone className="w-16 h-16 text-primary mx-auto mb-6" />
-        <h1 className="text-2xl md:text-3xl font-bold mb-4">Tải Ứng Dụng Lixibox</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-4">Tải Ứng Dụng Vutru</h1>
         <p className="text-muted-foreground mb-2">Nhận ngay voucher <span className="text-primary font-bold">300.000₫</span> khi tải app</p>
-        <p className="text-sm text-muted-foreground mb-8">Mua sắm mọi lúc mọi nơi với ứng dụng Lixibox</p>
+        <p className="text-sm text-muted-foreground mb-8">Mua sắm mọi lúc mọi nơi với ứng dụng Vutru</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
           <a href="#" className="flex items-center gap-3 bg-foreground text-background rounded-xl px-6 py-3 hover:opacity-90 transition-opacity">

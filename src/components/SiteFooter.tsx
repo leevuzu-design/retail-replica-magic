@@ -6,7 +6,7 @@ const SiteFooter = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand */}
         <div>
-          <h3 className="text-xl font-bold tracking-[0.3em] text-background mb-4">LIXIBOX</h3>
+          <h3 className="text-xl font-bold tracking-[0.3em] text-background mb-4">VUTRU</h3>
           <p className="text-sm leading-relaxed mb-4">
             Bringing affordable luxury to the urban population. Nền tảng mua sắm mỹ phẩm hàng đầu Việt Nam.
           </p>
@@ -15,7 +15,7 @@ const SiteFooter = () => (
               <Phone className="w-4 h-4" /> 1900 6979
             </a>
             <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
-              <Mail className="w-4 h-4" /> support@lixibox.com
+              <Mail className="w-4 h-4" /> support@vutru.com
             </a>
             <a href="#" className="flex items-center gap-2 hover:text-primary transition-colors">
               <MapPin className="w-4 h-4" /> TP. Hồ Chí Minh, Việt Nam
@@ -25,7 +25,7 @@ const SiteFooter = () => (
 
         {/* Links */}
         <div>
-          <h4 className="text-sm font-semibold text-background mb-4 uppercase tracking-wide">Về Lixibox</h4>
+          <h4 className="text-sm font-semibold text-background mb-4 uppercase tracking-wide">Về Vutru</h4>
           <ul className="space-y-2 text-sm">
             {['Giới thiệu', 'Tuyển dụng', 'Liên hệ', 'Magazine', 'Cộng đồng'].map((item) => (
               <li key={item}>
@@ -63,7 +63,7 @@ const SiteFooter = () => (
       </div>
 
       <div className="border-t border-footer-foreground/20 mt-8 pt-6 text-center text-xs">
-        <p>© 2025 Lixibox. All rights reserved.</p>
+        <p>© 2025 Vutru. All rights reserved.</p>
       </div>
     </div>
   </footer>

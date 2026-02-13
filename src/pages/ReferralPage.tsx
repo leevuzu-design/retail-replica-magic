@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const ReferralPage = () => {
   const [copied, setCopied] = useState(false);
-  const code = 'LIXIBOX2026';
+  const code = 'VUTRU2026';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -42,7 +42,7 @@ const ReferralPage = () => {
           {[
             { step: '1', title: 'Chia sẻ mã', desc: 'Gửi mã giới thiệu cho bạn bè qua tin nhắn hoặc mạng xã hội' },
             { step: '2', title: 'Bạn bè đặt hàng', desc: 'Bạn bè sử dụng mã và hoàn tất đơn hàng đầu tiên' },
-            { step: '3', title: 'Nhận thưởng', desc: 'Cả hai cùng nhận 500.000₫ vào tài khoản Lixibox' },
+            { step: '3', title: 'Nhận thưởng', desc: 'Cả hai cùng nhận 500.000₫ vào tài khoản Vutru' },
           ].map((item) => (
             <div key={item.step} className="bg-card border border-border rounded-lg p-6 text-center">
               <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground text-xl font-bold flex items-center justify-center mx-auto mb-4">

@@ -2,10 +2,10 @@ import PageLayout from '@/components/PageLayout';
 import { Clock, Coins, ArrowDown, ArrowUp } from 'lucide-react';
 
 const transactions = [
-  { id: 1, type: 'cashback', desc: 'Hoàn tiền đơn hàng #LX202602001', amount: 42500, date: '12/02/2026' },
-  { id: 2, type: 'cashback', desc: 'Hoàn tiền đơn hàng #LX202601025', amount: 62500, date: '30/01/2026' },
-  { id: 3, type: 'used', desc: 'Sử dụng cho đơn hàng #LX202601012', amount: -30000, date: '15/01/2026' },
-  { id: 4, type: 'cashback', desc: 'Hoàn tiền đơn hàng #LX202601005', amount: 105000, date: '07/01/2026' },
+  { id: 1, type: 'cashback', desc: 'Hoàn tiền đơn hàng #VT202602001', amount: 42500, date: '12/02/2026' },
+  { id: 2, type: 'cashback', desc: 'Hoàn tiền đơn hàng #VT202601025', amount: 62500, date: '30/01/2026' },
+  { id: 3, type: 'used', desc: 'Sử dụng cho đơn hàng #VT202601012', amount: -30000, date: '15/01/2026' },
+  { id: 4, type: 'cashback', desc: 'Hoàn tiền đơn hàng #VT202601005', amount: 105000, date: '07/01/2026' },
 ];
 
 const CashbackPage = () => (

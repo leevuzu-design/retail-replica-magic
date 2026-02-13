@@ -15,7 +15,7 @@ const MagazinePage = () => (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-3 mb-8">
         <BookOpen className="w-7 h-7 text-primary" />
-        <h1 className="text-2xl md:text-3xl font-bold">Lixi Magazines</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">Vutru Magazines</h1>
       </div>
 
       {/* Featured Article */}
