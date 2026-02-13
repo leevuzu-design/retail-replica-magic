@@ -2,11 +2,13 @@ import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOu
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart';
 
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, profile, signOut } = useAuth();
   const location = useLocation();
+  const { totalItems } = useCart();
 
   const accountMenuItems = [
     { icon: Package, label: 'Đơn hàng của tôi', to: '/orders' },
@@ -176,7 +178,7 @@ const SiteHeader = () => {
             <Link to="/cart" className="relative hover:text-primary transition-colors" aria-label="Giỏ hàng">
               <ShoppingBag className="w-5 h-5" />
               <span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                0
+                {totalItems}
               </span>
             </Link>
             <button className="md:hidden hover:text-primary transition-colors" aria-label="Menu">
