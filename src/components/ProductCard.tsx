@@ -1,4 +1,5 @@
 import { Heart, Star, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { Product } from '@/data/products';
 
 const formatPrice = (price: number) =>
@@ -20,7 +21,7 @@ const badgeLabels: Record<string, string> = {
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="group bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-in">
+    <Link to={`/product/${product.id}`} className="block group bg-card rounded-lg border border-border overflow-hidden hover:shadow-lg transition-all duration-300 animate-slide-in">
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-secondary">
         <img
@@ -80,7 +81,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
