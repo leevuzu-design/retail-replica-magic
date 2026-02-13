@@ -28,8 +28,16 @@ import WaitingPage from "./pages/WaitingPage";
 import ReviewedPage from "./pages/ReviewedPage";
 import MyPostsPage from "./pages/MyPostsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import CartDrawer from "./components/CartDrawer";
+import { useCart } from "@/hooks/useCart";
 
 const queryClient = new QueryClient();
+
+const CartDrawerWrapper = () => {
+  const { drawerOpen, closeDrawer } = useCart();
+  return <CartDrawer open={drawerOpen} onClose={closeDrawer} />;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -38,33 +46,35 @@ const App = () => (
         <ViewedProvider>
           <CartProvider>
             <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/magazine" element={<MagazinePage />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/hot-deals" element={<HotDealsPage />} />
-            <Route path="/stores" element={<StoresPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/vutrucoin" element={<LixicoinPage />} />
-            <Route path="/cashback" element={<CashbackPage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/profile" element={<ProfileEditPage />} />
-            <Route path="/change-password" element={<ChangePasswordPage />} />
-            <Route path="/addresses" element={<AddressesPage />} />
-            <Route path="/viewed" element={<ViewedPage />} />
-            <Route path="/waiting" element={<WaitingPage />} />
-            <Route path="/reviewed" element={<ReviewedPage />} />
-            <Route path="/my-posts" element={<MyPostsPage />} />
-            <Route path="/product/:id" element={<ProductDetailPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <CartDrawerWrapper />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/magazine" element={<MagazinePage />} />
+                  <Route path="/community" element={<CommunityPage />} />
+                  <Route path="/hot-deals" element={<HotDealsPage />} />
+                  <Route path="/stores" element={<StoresPage />} />
+                  <Route path="/orders" element={<OrdersPage />} />
+                  <Route path="/vutrucoin" element={<LixicoinPage />} />
+                  <Route path="/cashback" element={<CashbackPage />} />
+                  <Route path="/wishlist" element={<WishlistPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/sign-in" element={<SignInPage />} />
+                  <Route path="/sign-up" element={<SignUpPage />} />
+                  <Route path="/profile" element={<ProfileEditPage />} />
+                  <Route path="/change-password" element={<ChangePasswordPage />} />
+                  <Route path="/addresses" element={<AddressesPage />} />
+                  <Route path="/viewed" element={<ViewedPage />} />
+                  <Route path="/waiting" element={<WaitingPage />} />
+                  <Route path="/reviewed" element={<ReviewedPage />} />
+                  <Route path="/my-posts" element={<MyPostsPage />} />
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
             </TooltipProvider>
           </CartProvider>
         </ViewedProvider>

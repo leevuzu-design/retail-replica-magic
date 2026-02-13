@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import type { Product } from '@/data/products';
 import { useWishlist } from '@/hooks/useWishlist';
 import { useCart } from '@/hooks/useCart';
-import { toast } from '@/hooks/use-toast';
+
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('vi-VN').format(price) + '₫';
@@ -30,7 +30,6 @@ const ProductCard = ({ product }: { product: Product }) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     addToCart(product.id);
-    toast({ title: 'Đã thêm vào giỏ hàng', description: product.name });
   };
 
   return (

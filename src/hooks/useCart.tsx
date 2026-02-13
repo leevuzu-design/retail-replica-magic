@@ -13,6 +13,9 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   getQuantity: (productId: number) => number;
+  drawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -25,10 +28,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     } catch { return []; }
   });
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
+
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
   const addToCart = useCallback((productId: number, qty = 1) => {
     setItems((prev) => {
@@ -40,6 +47,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, { productId, quantity: qty }];
     });
+    setDrawerOpen(true);
   }, []);
 
   const removeFromCart = useCallback((productId: number) => {
@@ -66,7 +74,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, getQuantity }}>
+    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, getQuantity, drawerOpen, openDrawer, closeDrawer }}>
       {children}
     </CartContext.Provider>
   );
