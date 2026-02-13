@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import MagazinePage from "./pages/MagazinePage";
@@ -21,27 +22,29 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/magazine" element={<MagazinePage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/hot-deals" element={<HotDealsPage />} />
-          <Route path="/stores" element={<StoresPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/vutrucoin" element={<LixicoinPage />} />
-          <Route path="/cashback" element={<CashbackPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/magazine" element={<MagazinePage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/hot-deals" element={<HotDealsPage />} />
+            <Route path="/stores" element={<StoresPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/vutrucoin" element={<LixicoinPage />} />
+            <Route path="/cashback" element={<CashbackPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

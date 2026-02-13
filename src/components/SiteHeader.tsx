@@ -1,9 +1,11 @@
-import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { user, profile, signOut } = useAuth();
 
   return (
     <header className="bg-header text-header-foreground sticky top-0 z-50">
@@ -46,15 +48,36 @@ const SiteHeader = () => {
                 <div className="font-medium">Trang cộng đồng</div>
               </div>
             </Link>
-            <Link to="/sign-in" className="hidden lg:flex items-center gap-2 text-xs hover:text-primary transition-colors">
-              <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
-                <User className="w-4 h-4" />
+
+            {user ? (
+              <div className="hidden lg:flex items-center gap-2 text-xs">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden">
+                  {profile?.avatar_url ? (
+                    <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-4 h-4 text-primary-foreground" />
+                  )}
+                </div>
+                <div className="leading-tight">
+                  <div className="opacity-70">Xin chào</div>
+                  <div className="font-medium">{profile?.display_name || user.email?.split('@')[0]}</div>
+                </div>
+                <button onClick={signOut} className="ml-2 hover:text-primary transition-colors" title="Đăng xuất">
+                  <LogOut className="w-4 h-4" />
+                </button>
               </div>
-              <div className="leading-tight">
-                <div className="opacity-70">Hi, Beautiful</div>
-                <div className="font-medium">Đăng nhập ngay</div>
-              </div>
-            </Link>
+            ) : (
+              <Link to="/sign-in" className="hidden lg:flex items-center gap-2 text-xs hover:text-primary transition-colors">
+                <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="leading-tight">
+                  <div className="opacity-70">Hi, Beautiful</div>
+                  <div className="font-medium">Đăng nhập ngay</div>
+                </div>
+              </Link>
+            )}
+
             <Link to="/wishlist" className="relative hover:text-primary transition-colors" aria-label="Yêu thích">
               <Heart className="w-5 h-5" />
             </Link>
