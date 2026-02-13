@@ -31,6 +31,11 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import CartDrawer from "./components/CartDrawer";
 import { useCart } from "@/hooks/useCart";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminCustomers from "./pages/admin/AdminCustomers";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +77,11 @@ const App = () => (
                   <Route path="/reviewed" element={<ReviewedPage />} />
                   <Route path="/my-posts" element={<MyPostsPage />} />
                   <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/admin/orders" element={<AdminOrders />} />
+                  <Route path="/admin/products" element={<AdminProducts />} />
+                  <Route path="/admin/customers" element={<AdminCustomers />} />
+                  <Route path="/admin/settings" element={<AdminSettings />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
