@@ -1,14 +1,16 @@
-import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut, Eye, Clock, Star, MessageSquare, Package, FileText, UserCog, KeyRound, MapPin } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, Menu, Newspaper, MessageCircle, LogOut, Eye, Clock, Star, MessageSquare, Package, FileText, UserCog, KeyRound, MapPin, Shield } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
+import { useAdminCheck } from '@/hooks/useAdmin';
 import AuthDialog from '@/components/AuthDialog';
 
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [authOpen, setAuthOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
+  const { isAdmin } = useAdminCheck();
   const location = useLocation();
   const { totalItems } = useCart();
 
@@ -161,6 +163,18 @@ const SiteHeader = () => {
                           </Link>
                         ))}
                       </div>
+
+                      {isAdmin && (
+                        <>
+                          <div className="border-t border-border" />
+                          <div className="py-1">
+                            <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-secondary transition-colors text-primary font-medium">
+                              <Shield className="w-4 h-4 shrink-0" />
+                              <span>Quản trị Admin</span>
+                            </Link>
+                          </div>
+                        </>
+                      )}
 
                       <div className="border-t border-border" />
                       <div className="p-3">
