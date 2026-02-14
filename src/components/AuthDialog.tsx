@@ -1,6 +1,7 @@
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { User, Mail, Lock, Eye, EyeOff, UserPlus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable';
@@ -12,7 +13,15 @@ interface AuthDialogProps {
 }
 
 const AuthDialog = ({ open, onOpenChange }: AuthDialogProps) => {
+  const { user } = useAuth();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
+
+  // Auto-close dialog when user becomes authenticated
+  useEffect(() => {
+    if (user && open) {
+      onOpenChange(false);
+    }
+  }, [user, open, onOpenChange]);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
