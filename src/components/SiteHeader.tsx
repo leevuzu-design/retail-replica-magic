@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
+import AuthDialog from '@/components/AuthDialog';
 
 const SiteHeader = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [authOpen, setAuthOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
   const location = useLocation();
   const { totalItems } = useCart();
@@ -84,7 +86,7 @@ const SiteHeader = () => {
                   </div>
                 </div>
               ) : (
-                <Link to="/sign-in" state={{ from: location.pathname }} className="flex items-center gap-2 text-xs hover:text-primary transition-colors">
+                <button onClick={() => setAuthOpen(true)} className="flex items-center gap-2 text-xs hover:text-primary transition-colors">
                   <div className="w-8 h-8 rounded-full bg-muted-foreground/30 flex items-center justify-center">
                     <User className="w-4 h-4" />
                   </div>
@@ -92,7 +94,7 @@ const SiteHeader = () => {
                     <div className="opacity-70">Hi, Beautiful</div>
                     <div className="font-medium">Đăng nhập ngay</div>
                   </div>
-                </Link>
+                </button>
               )}
 
               {/* Hover Dropdown */}
@@ -104,13 +106,13 @@ const SiteHeader = () => {
                         <p className="text-sm text-muted-foreground mb-3">
                           Đăng nhập để trải nghiệm những ưu đãi độc quyền của bạn tại Vutru
                         </p>
-                        <div className="flex gap-2">
-                          <Link to="/sign-in" state={{ from: location.pathname }} className="flex-1 h-9 bg-primary text-primary-foreground rounded-full text-sm font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
+                         <div className="flex gap-2">
+                          <button onClick={() => setAuthOpen(true)} className="flex-1 h-9 bg-primary text-primary-foreground rounded-full text-sm font-medium flex items-center justify-center hover:opacity-90 transition-opacity">
                             Đăng nhập
-                          </Link>
-                          <Link to="/sign-up" className="flex-1 h-9 border border-border rounded-full text-sm font-medium flex items-center justify-center hover:bg-secondary transition-colors">
+                          </button>
+                          <button onClick={() => setAuthOpen(true)} className="flex-1 h-9 border border-border rounded-full text-sm font-medium flex items-center justify-center hover:bg-secondary transition-colors">
                             Đăng ký
-                          </Link>
+                          </button>
                         </div>
                       </div>
                       <div className="border-t border-border" />
@@ -187,6 +189,7 @@ const SiteHeader = () => {
           </div>
         </div>
       </div>
+      <AuthDialog open={authOpen} onOpenChange={setAuthOpen} />
     </header>
   );
 };
