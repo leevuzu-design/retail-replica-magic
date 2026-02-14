@@ -1,7 +1,7 @@
 import PageLayout from '@/components/PageLayout';
 import { UserPlus, Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable';
 import { useToast } from '@/hooks/use-toast';
@@ -12,8 +12,23 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const [countdown, setCountdown] = useState(3);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  const from = (location.state as { from?: string })?.from || '/';
+
+  useEffect(() => {
+    if (!registered) return;
+    if (countdown <= 0) {
+      navigate(from, { replace: true });
+      return;
+    }
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [registered, countdown, navigate, from]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +45,8 @@ const SignUpPage = () => {
     if (error) {
       toast({ title: 'Lỗi đăng ký', description: error.message, variant: 'destructive' });
     } else {
-      toast({ title: 'Đăng ký thành công!', description: 'Vui lòng kiểm tra email để xác nhận tài khoản.' });
-      navigate('/sign-in');
+      toast({ title: 'Đăng ký thành công!' });
+      setRegistered(true);
     }
   };
 
@@ -61,6 +76,16 @@ const SignUpPage = () => {
     <PageLayout>
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-md mx-auto">
+          {registered ? (
+            <div className="text-center py-16">
+              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              </div>
+              <h1 className="text-2xl font-bold mb-2">Đăng ký thành công!</h1>
+              <p className="text-muted-foreground">Tự động chuyển hướng sau <span className="font-bold text-primary">{countdown}</span> giây...</p>
+            </div>
+          ) : (
+          <>
           <div className="text-center mb-8">
             <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center mx-auto mb-4">
               <UserPlus className="w-8 h-8 text-primary" />
@@ -139,6 +164,8 @@ const SignUpPage = () => {
             Đã có tài khoản?{' '}
             <Link to="/sign-in" className="text-primary font-medium hover:underline">Đăng nhập</Link>
           </div>
+          </>
+          )}
         </div>
       </div>
     </PageLayout>
