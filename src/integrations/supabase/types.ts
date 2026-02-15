@@ -107,57 +107,163 @@ export type Database = {
         }
         Relationships: []
       }
+      product_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          product_id: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+          product_id: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          product_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          attributes: Json
+          created_at: string
+          id: string
+          image_url: string | null
+          is_active: boolean
+          price: number
+          product_id: string
+          sku: string | null
+          stock: number
+          updated_at: string
+          variant_name: string
+        }
+        Insert: {
+          attributes?: Json
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price?: number
+          product_id: string
+          sku?: string | null
+          stock?: number
+          updated_at?: string
+          variant_name: string
+        }
+        Update: {
+          attributes?: Json
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price?: number
+          product_id?: string
+          sku?: string | null
+          stock?: number
+          updated_at?: string
+          variant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           badge: string | null
           brand: string
           category: string | null
+          condition: string | null
           created_at: string
           description: string | null
+          height: number | null
           id: string
           image_url: string | null
           is_active: boolean
+          length: number | null
           name: string
           original_price: number | null
+          pre_order_days: number | null
           price: number
           rating: number | null
           reviews_count: number | null
+          sku: string | null
           stock: number
           updated_at: string
+          video_url: string | null
+          weight: number | null
+          width: number | null
         }
         Insert: {
           badge?: string | null
           brand?: string
           category?: string | null
+          condition?: string | null
           created_at?: string
           description?: string | null
+          height?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean
+          length?: number | null
           name: string
           original_price?: number | null
+          pre_order_days?: number | null
           price?: number
           rating?: number | null
           reviews_count?: number | null
+          sku?: string | null
           stock?: number
           updated_at?: string
+          video_url?: string | null
+          weight?: number | null
+          width?: number | null
         }
         Update: {
           badge?: string | null
           brand?: string
           category?: string | null
+          condition?: string | null
           created_at?: string
           description?: string | null
+          height?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean
+          length?: number | null
           name?: string
           original_price?: number | null
+          pre_order_days?: number | null
           price?: number
           rating?: number | null
           reviews_count?: number | null
+          sku?: string | null
           stock?: number
           updated_at?: string
+          video_url?: string | null
+          weight?: number | null
+          width?: number | null
         }
         Relationships: []
       }
