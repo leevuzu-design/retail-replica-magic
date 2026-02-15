@@ -4,6 +4,14 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Camera, ChevronRight, User, X } from 'lucide-react';
+import { z } from 'zod';
+
+const profileFieldSchemas: Record<string, z.ZodType> = {
+  display_name: z.string().trim().max(100, 'Tên quá dài').nullable(),
+  phone_number: z.string().regex(/^[0-9]{10,11}$/, 'Số điện thoại không hợp lệ').nullable().or(z.literal('')),
+  birthday: z.string().refine((v) => !v || /^\d{4}-\d{2}-\d{2}$/.test(v), 'Ngày sinh không hợp lệ').nullable().or(z.literal('')),
+  gender: z.enum(['male', 'female', 'other', '']).nullable(),
+};
 
 const ProfileEditPage = () => {
   const { user, profile } = useAuth();
@@ -26,6 +34,14 @@ const ProfileEditPage = () => {
 
   const saveField = async (field: string, value: string) => {
     if (!user) return;
+    const schema = profileFieldSchemas[field];
+    if (schema) {
+      const result = schema.safeParse(value || null);
+      if (!result.success) {
+        toast({ title: result.error.errors[0]?.message || 'Dữ liệu không hợp lệ', variant: 'destructive' });
+        return;
+      }
+    }
     setLoading(true);
     const { error } = await supabase
       .from('profiles')

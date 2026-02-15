@@ -5,6 +5,16 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, MapPin, Pencil, Trash2, ArrowLeft, X, ChevronRight } from 'lucide-react';
 import AddressPicker from '@/components/AddressPicker';
+import { z } from 'zod';
+
+const addressSchema = z.object({
+  recipient_name: z.string().trim().min(1, 'Vui lòng nhập tên').max(100, 'Tên quá dài'),
+  phone: z.string().regex(/^[0-9]{10,11}$/, 'Số điện thoại không hợp lệ (10-11 số)'),
+  province: z.string().trim().min(1, 'Vui lòng chọn tỉnh/thành phố').max(50),
+  district: z.string().trim().min(1, 'Vui lòng chọn quận/huyện').max(50),
+  ward: z.string().trim().min(1, 'Vui lòng chọn phường/xã').max(50),
+  street_address: z.string().trim().min(1, 'Vui lòng nhập địa chỉ').max(200, 'Địa chỉ quá dài'),
+});
 
 interface Address {
   id: string;
@@ -65,20 +75,23 @@ const AddressesPage = () => {
 
   const handleSave = async () => {
     if (!user) return;
-    if (!form.recipient_name || !form.phone || !form.province || !form.district || !form.ward || !form.street_address) {
-      toast({ title: 'Vui lòng điền đầy đủ thông tin', variant: 'destructive' });
+    const result = addressSchema.safeParse(form);
+    if (!result.success) {
+      const firstError = result.error.errors[0]?.message || 'Dữ liệu không hợp lệ';
+      toast({ title: firstError, variant: 'destructive' });
       return;
     }
+    const validated = result.data;
     setSaving(true);
     if (editingId) {
-      const { error } = await supabase.from('addresses').update(form).eq('id', editingId);
+      const { error } = await supabase.from('addresses').update(validated).eq('id', editingId);
       if (error) {
         toast({ title: 'Lỗi', description: error.message, variant: 'destructive' });
       } else {
         toast({ title: 'Cập nhật thành công!' });
       }
     } else {
-      const { error } = await supabase.from('addresses').insert({ ...form, user_id: user.id, is_default: addresses.length === 0 });
+      const { error } = await supabase.from('addresses').insert({ ...validated, user_id: user.id, is_default: addresses.length === 0 } as any);
       if (error) {
         toast({ title: 'Lỗi', description: error.message, variant: 'destructive' });
       } else {
