@@ -5,6 +5,7 @@ import { toast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { X, Upload, Plus, Trash2, GripVertical } from 'lucide-react';
+import RichTextEditor from './RichTextEditor';
 
 interface ProductFormProps {
   product?: any;
@@ -212,7 +213,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
                   </div>
                   <div><label className={labelCls}>Thương hiệu</label><input className={inputCls} value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} /></div>
                 </div>
-                <div><label className={labelCls}>Mô tả sản phẩm</label><textarea className={`${inputCls} h-32 resize-none`} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Mô tả chi tiết sản phẩm..." /></div>
+                <div><label className={labelCls}>Mô tả sản phẩm</label><RichTextEditor content={form.description} onChange={val => setForm({ ...form, description: val })} placeholder="Mô tả chi tiết sản phẩm..." /></div>
               </div>
             </TabsContent>
 
