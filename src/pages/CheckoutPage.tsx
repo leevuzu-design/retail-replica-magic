@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
+import { z } from 'zod';
+
+const orderNoteSchema = z.string().max(500, 'Ghi chú quá dài (tối đa 500 ký tự)').optional();
 
 const allProducts = [...bestSellers, ...newArrivals];
 
@@ -68,6 +71,12 @@ const CheckoutPage = () => {
       return;
     }
 
+    const noteResult = orderNoteSchema.safeParse(note);
+    if (!noteResult.success) {
+      toast({ title: noteResult.error.errors[0]?.message || 'Ghi chú không hợp lệ', variant: 'destructive' });
+      return;
+    }
+
     setOrdering(true);
     try {
       const orderItems = cartProducts.map((p) => ({
@@ -97,7 +106,7 @@ const CheckoutPage = () => {
           ward: defaultAddress.ward,
           street_address: defaultAddress.street_address,
         },
-        note: note || null,
+        note: note?.trim().slice(0, 500) || null,
       } as any);
 
       if (error) throw error;
