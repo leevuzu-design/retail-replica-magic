@@ -58,34 +58,28 @@ export type Database = {
       }
       chat_messages: {
         Row: {
-          attachment_url: string | null
           content: string | null
           created_at: string | null
           id: string
-          is_read: boolean | null
           message_type: string | null
           sender_id: string
-          session_id: string
+          session_id: string | null
         }
         Insert: {
-          attachment_url?: string | null
           content?: string | null
           created_at?: string | null
           id?: string
-          is_read?: boolean | null
           message_type?: string | null
           sender_id: string
-          session_id: string
+          session_id?: string | null
         }
         Update: {
-          attachment_url?: string | null
           content?: string | null
           created_at?: string | null
           id?: string
-          is_read?: boolean | null
           message_type?: string | null
           sender_id?: string
-          session_id?: string
+          session_id?: string | null
         }
         Relationships: [
           {
@@ -120,26 +114,20 @@ export type Database = {
       }
       chat_sessions: {
         Row: {
-          admin_id: string | null
           created_at: string | null
           id: string
-          last_message: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
-          admin_id?: string | null
           created_at?: string | null
           id?: string
-          last_message?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
-          admin_id?: string | null
           created_at?: string | null
           id?: string
-          last_message?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -509,7 +497,6 @@ export type Database = {
         }
         Returns: number
       }
-      get_or_create_chat_session: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
