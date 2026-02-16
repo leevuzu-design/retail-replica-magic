@@ -509,6 +509,7 @@ export type Database = {
         }
         Returns: number
       }
+      get_or_create_chat_session: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
