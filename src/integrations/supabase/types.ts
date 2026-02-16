@@ -56,6 +56,95 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          attachment_url: string | null
+          content: string | null
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message_type: string | null
+          sender_id: string
+          session_id: string
+        }
+        Insert: {
+          attachment_url?: string | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message_type?: string | null
+          sender_id: string
+          session_id: string
+        }
+        Update: {
+          attachment_url?: string | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message_type?: string | null
+          sender_id?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_quick_replies: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          id: string
+          shortcut: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          shortcut?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          shortcut?: string | null
+        }
+        Relationships: []
+      }
+      chat_sessions: {
+        Row: {
+          admin_id: string | null
+          created_at: string | null
+          id: string
+          last_message: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          admin_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_message?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          admin_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_message?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
@@ -197,6 +286,7 @@ export type Database = {
           condition: string | null
           created_at: string
           description: string | null
+          gallery: Json | null
           height: number | null
           id: string
           image_url: string | null
@@ -222,6 +312,7 @@ export type Database = {
           condition?: string | null
           created_at?: string
           description?: string | null
+          gallery?: Json | null
           height?: number | null
           id?: string
           image_url?: string | null
@@ -247,6 +338,7 @@ export type Database = {
           condition?: string | null
           created_at?: string
           description?: string | null
+          gallery?: Json | null
           height?: number | null
           id?: string
           image_url?: string | null
@@ -271,38 +363,91 @@ export type Database = {
         Row: {
           address: string | null
           avatar_url: string | null
-          birthday: string | null
-          created_at: string
-          display_name: string | null
-          gender: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
           id: string
-          phone_number: string | null
-          updated_at: string
-          user_id: string
+          phone: string | null
+          updated_at: string | null
         }
         Insert: {
           address?: string | null
           avatar_url?: string | null
-          birthday?: string | null
-          created_at?: string
-          display_name?: string | null
-          gender?: string | null
-          id?: string
-          phone_number?: string | null
-          updated_at?: string
-          user_id: string
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string | null
         }
         Update: {
           address?: string | null
           avatar_url?: string | null
-          birthday?: string | null
-          created_at?: string
-          display_name?: string | null
-          gender?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
-          phone_number?: string | null
-          updated_at?: string
-          user_id?: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          id: string
+          product_id: string | null
+          rating: number | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_activity_logs: {
+        Row: {
+          action: string | null
+          created_at: string | null
+          details: Json | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          action?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -332,6 +477,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_customers: {
+        Args: {
+          p_date_from?: string
+          p_date_to?: string
+          p_page?: number
+          p_page_size?: number
+          p_search?: string
+          p_sort_col?: string
+          p_sort_dir?: string
+          p_status?: string
+        }
+        Returns: {
+          avatar_url: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_banned: boolean
+          last_sign_in_at: string
+          phone: string
+          total_count: number
+        }[]
+      }
+      get_customers_count: {
+        Args: {
+          p_date_from?: string
+          p_date_to?: string
+          p_search?: string
+          p_status?: string
+        }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
